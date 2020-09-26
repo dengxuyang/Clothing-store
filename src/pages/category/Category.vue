@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="wrapper"  ref="wrapper">
+    <div class="wrapper" ref="wrapper">
       <ul>
         <li>滚动1</li>
         <li>滚动2</li>
@@ -125,7 +125,7 @@ export default {
     });
     this.bscroll.on("pullingUp", () => {
       console.log("加载更多");
-       this.bscroll.finishPullUp()
+      this.bscroll.finishPullUp();
     });
   },
 };

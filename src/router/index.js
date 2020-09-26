@@ -5,6 +5,7 @@ const Home = () => import('../pages/home/Home')
 const Cart = () => import('../pages/cart/Cart')
 const Category = () => import('../pages/category/Category')
 const Profile = () => import('../pages/profile/Profile')
+const Detail = () => import('../pages/detail/Detail')
 Vue.use(Router)
 
 export default new Router({
@@ -28,6 +29,10 @@ export default new Router({
         {
             path: '/profile',
             component: Profile
+        },
+        {
+            path: '/detail',
+            component: Detail
         }
     ],
     mode:'history'

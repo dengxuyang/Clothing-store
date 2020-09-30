@@ -35,8 +35,8 @@ export default {
       // console.log(position);
       this.$emit("hideBackTop", position);
     });
-    this.bscroll.on("pullingUp", () => {
-      this.$emit("pullingUp");
+    this.pullUpLoad &&  this.bscroll.on("pullingUp", () => {
+     this.$emit("pullingUp");
       this.bscroll.finishPullUp();
     });
   },
@@ -47,9 +47,9 @@ export default {
     imgFinish() {
       this.bscroll && this.bscroll.refresh();
     },
-    getScrollY(){
-     return this.bscroll.y
-    }
+    getScrollY() {
+      return this.bscroll.y;
+    },
   },
 };
 </script>

@@ -124,7 +124,7 @@ export default {
       //console.log(position);
     });
     this.bscroll.on("pullingUp", () => {
-      console.log("加载更多");
+     
       this.bscroll.finishPullUp();
     });
   },

@@ -1,6 +1,5 @@
 <template>
-  <div>
-    <nav-bar>
+    <nav-bar class="navbar">
       <div slot="left" class="back" @click="$router.back()">
         <img src="~assets/img/common/back.svg" alt="" />
       </div>
@@ -16,7 +15,6 @@
         </div>
       </div>
     </nav-bar>
-  </div>
 </template>
 
 <script>
@@ -34,12 +32,18 @@ export default {
   methods: {
     titleItemClick(index) {
       this.currentIndex = index;
+      this.$emit('titleItemClick',index)
     },
   },
 };
 </script>
 
 <style scoped>
+.navbar{
+  position: relative;
+  z-index: 99;
+  background-color: #fff;
+}
 .title {
   display: flex;
   font-size: 13px;

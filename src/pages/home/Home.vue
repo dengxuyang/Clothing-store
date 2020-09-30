@@ -15,7 +15,7 @@
       ref="scroll"
       :probe-type="3"
       :pull-up-load="true"
-      @hideBackTop="hideBackTop"
+      @hideBackTop="showBackTop"
       @pullingUp="pullingUp"
     >
       <home-swiper :banners="banners" @swiperImgLoad="swiperImgLoad" />
@@ -38,19 +38,17 @@
 
 <script>
 import NavBar from "components/common/navbar/NavBar";
-import Scroll from "components/common/scroll/Scroll";
-
 import HomeSwiper from "./childcomponents/HomeSwiper";
 import RecommendView from "./childcomponents/RecommendView";
 import FeatureView from "./childcomponents/FeatureView";
 
 import TabControl from "components/content/tabcontrol/TabControl";
 import GoodsList from "components/content/goods/GoodsList";
-import BackTop from "components/content/backtop/BackTop";
+
 
 import { getHomeMultidata, getHomeGoods } from "network/home";
 
-import { debounce } from "common/utils.js";
+import { itemListenerMixin, backTopMixin } from "common/mixin.js";
 export default {
   components: {
     NavBar,
@@ -59,9 +57,9 @@ export default {
     FeatureView,
     TabControl,
     GoodsList,
-    Scroll,
-    BackTop,
+
   },
+  mixins: [itemListenerMixin, backTopMixin],
   data() {
     return {
       banners: [],
@@ -73,9 +71,7 @@ export default {
         sell: { page: 0, list: [] },
       },
       currentType: "pop",
-      showBack: false,
-      tabOffsetTop: 0,
-      isTabFixed: false,
+    
       saveY: 0,
     };
   },
@@ -85,21 +81,14 @@ export default {
     this.getHomeGoods("new");
     this.getHomeGoods("sell");
   },
-  mounted() {
-    const refresh = debounce(this.$refs.scroll.imgFinish, 50);
-    this.$nextTick(() => {
-      //接收事件总线
-      this.$bus.$on("itemImgLoad", () => {
-        refresh();
-      });
-    });
-  },
+  mounted() {},
   activated() {
     this.$refs.scroll.imgFinish();
     this.$refs.scroll.scrollTo(0, this.saveY, 0);
   },
   deactivated() {
     this.saveY = this.$refs.scroll.getScrollY();
+    // this.$bus.$off("itemImgLoad", itemImgListener)
   },
   methods: {
     //获取商品轮播图等信息
@@ -139,20 +128,11 @@ export default {
       this.$refs.tabcontrol1.active = index;
       this.$refs.tabcontrol2.active = index;
     },
-    backClick() {
-      this.$refs.scroll.scrollTo(0, 0, 1000);
-    },
-    hideBackTop(position) {
-      // console.log(position);
-      this.showBack = -position.y > 1000;
-      this.isTabFixed = -position.y > this.tabOffsetTop;
-    },
+
     pullingUp() {
       this.getHomeGoods(this.currentType);
     },
-    swiperImgLoad() {
-      this.tabOffsetTop = this.$refs.tabcontrol2.$el.offsetTop;
-    },
+   
   },
   computed: {
     showGoods() {
